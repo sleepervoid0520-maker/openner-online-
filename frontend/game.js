@@ -39,7 +39,7 @@ class BoxOpeningGame {
     setupEventListeners() {
         // Forms
         document.getElementById('login-form-element').addEventListener('submit', (e) => this.handleLogin(e));
-        document.getElementById('register-form-element').addEventListener('submit', (e) => this.handleRegister(e));
+    // document.getElementById('register-form-element').addEventListener('submit', (e) => this.handleRegister(e));
         
         // Botones
         document.getElementById('logout-btn').addEventListener('click', () => this.logout());

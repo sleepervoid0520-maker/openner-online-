@@ -153,28 +153,15 @@ class AuthSystem {
         }
 
         this.showLoading(true);
-
         try {
             const response = await fetch(`${this.apiUrl}/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password })
             });
-
             const data = await response.json();
-
             if (data.success) {
-                this.token = data.token;
-                this.currentUser = data.user;
-                localStorage.setItem('authToken', this.token);
-                
-                this.showNotification(`¡Cuenta creada! Bienvenido ${data.user.username}!`, 'success');
-                // Reinicializar sistema de iconos para este usuario
-                if (window.playerIconSystem) {
-                    await window.playerIconSystem.loadUnlockedIconsFromBackend();
-                    window.playerIconSystem.updatePlayerIcon();
-                }
-                await this.showDashboard();
+                this.showRegisterSuccessModal();
             } else {
                 this.showNotification(data.error || 'Error en el registro', 'error');
             }
@@ -229,6 +216,28 @@ class AuthSystem {
         this.showAuthScreen();
         this.clearForms();
         this.showNotification('Sesión cerrada', 'success');
+    }
+
+    showRegisterSuccessModal() {
+        // Crear modal dinámicamente
+        const modal = document.createElement('div');
+        modal.id = 'register-success-modal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content" style="text-align: center; padding: 40px;">
+                <h2 style="color: #4CAF50; margin-bottom: 20px;">¡Registro Exitoso!</h2>
+                <p style="font-size: 18px; margin-bottom: 30px;">Serás redirigido a la sección de login</p>
+                <div class="loading-spinner" style="margin: 0 auto;"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        // Mostrar modal
+        modal.classList.add('active');
+        // Después de 1 segundo, limpiar storage y recargar página
+        setTimeout(() => {
+            localStorage.clear();
+            location.reload();
+        }, 1000);
     }
 
     // Pantallas
@@ -2595,12 +2604,12 @@ RouletteSystem.prototype.collectWeapon = function() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🔧 Configurando event listeners de botones TOMAR/VENDER...');
     
-    // Inicializar sistema de inventario cuando se cargue el auth system
+    // Inicializar sistema de inventario solo si hay token (usuario logueado)
     setTimeout(() => {
-        if (authSystem) {
+        if (authSystem && authSystem.token) {
             inventorySystem = new InventorySystem(authSystem);
         } else {
-            console.error('❌ authSystem no disponible para inicializar inventario');
+            console.log('⏳ Esperando login para inicializar inventario');
         }
     }, 1000);
     
