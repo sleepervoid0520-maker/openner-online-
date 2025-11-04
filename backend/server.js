@@ -72,6 +72,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Servir archivos estáticos (frontend)
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/iconos', express.static(path.join(__dirname, '../frontend/iconos')));
+app.use('/musica', express.static(path.join(__dirname, '../frontend/musica')));
+app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use('/cajas', express.static(path.join(__dirname, '../frontend/cajas')));
 app.use('/arma', express.static(path.join(__dirname, '../frontend/arma')));
