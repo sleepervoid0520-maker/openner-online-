@@ -46,7 +46,7 @@ class ChatSystem {
         // Detectar entorno y usar la URL correcta
         const backendUrl = window.location.hostname === 'localhost' 
             ? 'http://localhost:3000'
-            : 'https://opennergame.duckdns.org';
+            : 'http://opennergame.duckdns.org:3000';
         this.socket = io(backendUrl);
         
         // Event listeners

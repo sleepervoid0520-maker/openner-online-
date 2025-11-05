@@ -2,7 +2,7 @@
 
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? '/api' 
-    : 'https://opennergame.duckdns.org/api';
+    : 'http://opennergame.duckdns.org:3000/api';
 
 // Variables globales
 let currentFilters = {
