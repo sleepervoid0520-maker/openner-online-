@@ -43,7 +43,11 @@ class ChatSystem {
     
     initialize() {
         // Conectar con Socket.IO
-        this.socket = io('http://localhost:3000');
+        // Detectar entorno y usar la URL correcta
+        const backendUrl = window.location.hostname.includes('onrender.com')
+            ? 'https://openner-online.onrender.com'
+            : 'http://localhost:3000';
+        this.socket = io(backendUrl);
         
         // Event listeners
         this.setupSocketListeners();

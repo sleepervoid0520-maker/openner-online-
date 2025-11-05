@@ -419,8 +419,9 @@ class BoxOpeningGame {
                 <h3>${box.name}</h3>
                 <p>${box.description}</p>
                 <div class="box-cost">💰 ${box.cost} monedas</div>
-                <button class="btn btn-primary" ${this.currentUser?.coins < box.cost ? 'disabled' : ''}>
-                    ${this.currentUser?.coins >= box.cost ? 'Abrir Caja' : 'Sin monedas suficientes'}
+                <button class="btn btn-primary" 
+                    ${box.cost === 0 ? '' : (this.currentUser?.coins < box.cost ? 'disabled' : '')}>
+                    ${box.cost === 0 ? 'Abrir Caja' : (this.currentUser?.coins >= box.cost ? 'Abrir Caja' : 'Sin monedas suficientes')}
                 </button>
             </div>
         `).join('');
