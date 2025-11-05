@@ -1,6 +1,10 @@
 // Sistema DEX (Codex de Armas)
 // Gestión del sistema de colección de armas
 
+const DEX_API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api'
+    : 'http://104.248.214.10:3000/api';
+
 class WeaponDex {
     constructor() {
         this.unlockedWeapons = new Set();
@@ -33,7 +37,7 @@ class WeaponDex {
         try {
             const token = localStorage.getItem('authToken');
             
-            const response = await fetch('http://104.248.214.10:3000/api/dex/unlocked', {
+            const response = await fetch(`${DEX_API_BASE}/dex/unlocked`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -61,7 +65,7 @@ class WeaponDex {
     async saveUnlockedWeapons() {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://104.248.214.10:3000/api/dex/unlock', {
+            const response = await fetch(`${DEX_API_BASE}/dex/unlock`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -368,7 +372,7 @@ class WeaponDex {
         // Obtener estadísticas globales del arma
         let stats = { total_openings: 0, current_existing: 0, total_conta_openings: 0, current_conta_existing: 0 };
         try {
-            const response = await fetch(`http://104.248.214.10:3000/api/weapon-stats/stats/${weapon.id}`);
+            const response = await fetch(`${DEX_API_BASE}/weapon-stats/stats/${weapon.id}`);
             if (response.ok) {
                 stats = await response.json();
             }
@@ -627,7 +631,7 @@ class WeaponDex {
             const token = localStorage.getItem('authToken');
             if (!token) return;
             
-            const response = await fetch('http://104.248.214.10:3000/api/inventory/recalculate-all-passives', {
+            const response = await fetch(`${DEX_API_BASE}/inventory/recalculate-all-passives`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

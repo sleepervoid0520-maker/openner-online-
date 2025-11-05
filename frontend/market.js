@@ -1,6 +1,9 @@
 // Sistema de Mercado - Market.js
 
-const API_BASE_URL = 'http://104.248.214.10:3000/api';
+// Detectar automáticamente la URL de la API
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api'
+    : 'http://104.248.214.10:3000/api';
 
 // Variables globales
 let currentFilters = {
