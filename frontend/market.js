@@ -188,10 +188,13 @@ async function loadMarketListings() {
 
     try {
         // Obtener perfil del usuario para saber su ID
-        const profileResponse = await fetch(`${API_BASE_URL}/auth/verify`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        // DEBUG: Mostrar la URL y el token antes del fetch
+        const token = localStorage.getItem('token');
+        const url = '/api/auth/verify';
+        console.log('[DEBUG market.js] Intentando fetch:', url, 'Token:', token);
+        // Usa la URL relativa para evitar problemas de CSP/mixed content
+        const verifyRes = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
         const profileData = await profileResponse.json();
         const currentUserId = profileData.success ? profileData.user.id : null;
