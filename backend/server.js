@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 const io = socketIO(server, {
   cors: {
-    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
+    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'https://opennergame.duckdns.org'],
     credentials: true
   }
 });
@@ -56,7 +56,7 @@ app.use(helmet({
       scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:", "blob:"],
-  connectSrc: ["'self'", 'http://104.248.214.10:3000']
+  connectSrc: ["'self'", 'https://opennergame.duckdns.org']
     }
   }
 }));
@@ -73,7 +73,7 @@ app.use(limiter);
 
 // CORS para desarrollo y producción
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
+  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'https://opennergame.duckdns.org'],
   credentials: true
 }));
 

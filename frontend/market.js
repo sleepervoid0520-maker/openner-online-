@@ -1,6 +1,8 @@
 // Sistema de Mercado - Market.js
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? '/api' 
+    : 'https://opennergame.duckdns.org/api';
 
 // Variables globales
 let currentFilters = {
