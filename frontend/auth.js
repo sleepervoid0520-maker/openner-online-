@@ -715,17 +715,19 @@ class RouletteSystem {
             const discountPercent = inventorySystem?.passiveStats?.menorCostoCajasPercent || 0;
             const boxPrice = originalPrice * (1 - discountPercent / 100);
             
-            // Verificar saldo suficiente
-            if (!inventorySystem || inventorySystem.userMoney < boxPrice) {
+            // Verificar saldo suficiente (permitir abrir si el precio es 0)
+            if (boxPrice > 0 && (!inventorySystem || inventorySystem.userMoney < boxPrice)) {
                 console.log('❌ Saldo insuficiente');
                 this.showInsufficientBalanceModal();
                 return;
             }
             
-            // Restar dinero del saldo
-            const newBalance = inventorySystem.userMoney - boxPrice;
-            inventorySystem.userMoney = newBalance;
-            inventorySystem.updateMoneyDisplay(newBalance);
+            // Restar dinero del saldo solo si el precio es mayor a 0
+            if (boxPrice > 0) {
+                const newBalance = inventorySystem.userMoney - boxPrice;
+                inventorySystem.userMoney = newBalance;
+                inventorySystem.updateMoneyDisplay(newBalance);
+            }
             
             // Mostrar modal de ruleta
             this.showRouletteModal(boxId);
