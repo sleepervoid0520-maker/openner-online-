@@ -1,3 +1,10 @@
+// Debug: log all static file requests
+app.use((req, res, next) => {
+  if (req.url.endsWith('.css') || req.url.endsWith('.js') || req.url.endsWith('.png') || req.url.endsWith('.jpg')) {
+    console.log(`[STATIC DEBUG] ${req.method} ${req.url}`);
+  }
+  next();
+});
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
