@@ -5,6 +5,8 @@ const { authenticateToken } = require('../middleware/auth');
 
 // GET - Obtener armas desbloqueadas del usuario
 router.get('/unlocked', authenticateToken, (req, res) => {
+    // DEBUG: Log de petición y token
+    console.log('[DEBUG /api/dex/unlocked] IP:', req.ip, 'Authorization:', req.headers['authorization']);
     const userId = req.user.userId;
     
     db.get(`
