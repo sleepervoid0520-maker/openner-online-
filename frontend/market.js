@@ -1,6 +1,6 @@
 // Sistema de Mercado - Market.js
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://104.248.214.10:3000/api';
 
 // Variables globales
 let currentFilters = {

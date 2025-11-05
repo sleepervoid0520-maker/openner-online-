@@ -1,5 +1,5 @@
 // Sistema de Ranking
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://104.248.214.10:3000/api';
 let currentTab = 'money';
 let rankingData = {
     money: null,
