@@ -187,13 +187,8 @@ async function loadMarketListings() {
     if (!token) return;
 
     try {
-        // DEBUG: Mostrar el origen, API_BASE_URL y URLs de los fetch
-        console.log('[DEBUG market.js] window.location.origin:', window.location.origin);
-        console.log('[DEBUG market.js] API_BASE_URL:', typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : '(no definido)');
-
         // Obtener perfil del usuario para saber su ID
         const verifyUrl = '/api/auth/verify';
-        console.log('[DEBUG market.js] Intentando fetch a:', verifyUrl, 'Token:', token);
         const verifyRes = await fetch(verifyUrl, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -207,7 +202,6 @@ async function loadMarketListings() {
         });
 
         const listingsUrl = (typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : '') + '/market/listings?' + params;
-        console.log('[DEBUG market.js] Intentando fetch a:', listingsUrl);
         const response = await fetch(listingsUrl, {
             headers: {
                 'Authorization': `Bearer ${token}`

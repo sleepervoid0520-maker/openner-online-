@@ -46,7 +46,7 @@ class ChatSystem {
         const backendUrl = window.location.origin;
         this.socket = io(backendUrl);
         
-        // Event listeners
+       /// Event listeners
         this.setupSocketListeners();
         this.setupUIListeners();
         
