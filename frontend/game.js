@@ -1,7 +1,10 @@
 // Box Opening Game - JavaScript Principal
 class BoxOpeningGame {
     constructor() {
-        this.apiUrl = '/api';
+        // Detectar automáticamente la URL de la API
+        this.apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000/api'
+            : 'http://104.248.214.10:3000/api';
         this.currentUser = null;
         this.token = localStorage.getItem('gameToken');
         this.boxes = [];
@@ -226,7 +229,7 @@ class BoxOpeningGame {
     // Gestión de datos del juego
     async loadBoxes() {
         try {
-            const response = await fetch(`${this.apiUrl}/game/boxes`);
+            const response = await fetch(`${this.apiUrl}/boxes`);
             const data = await response.json();
             
             if (data.success) {
@@ -240,11 +243,13 @@ class BoxOpeningGame {
 
     async loadItems() {
         try {
-            const response = await fetch(`${this.apiUrl}/game/items`);
+            const response = await fetch(`${this.apiUrl}/inventory`, {
+                headers: { 'Authorization': `Bearer ${this.token}` }
+            });
             const data = await response.json();
             
             if (data.success) {
-                this.items = data.items;
+                this.items = data.inventory;
             }
         } catch (error) {
             console.error('Error cargando items:', error);
@@ -253,7 +258,7 @@ class BoxOpeningGame {
 
     async loadInventory() {
         try {
-            const response = await fetch(`${this.apiUrl}/game/inventory`, {
+            const response = await fetch(`${this.apiUrl}/inventory`, {
                 headers: { 'Authorization': `Bearer ${this.token}` }
             });
             const data = await response.json();
@@ -385,7 +390,7 @@ class BoxOpeningGame {
 
     async loadStats() {
         try {
-            const response = await fetch(`${this.apiUrl}/game/stats`, {
+            const response = await fetch(`${this.apiUrl}/stats`, {
                 headers: { 'Authorization': `Bearer ${this.token}` }
             });
             const data = await response.json();
