@@ -32,7 +32,11 @@ class WeaponDex {
     async loadUnlockedWeapons() {
         try {
             const token = localStorage.getItem('authToken');
-            
+            // DEBUG: Mostrar URL y token
+            console.log("DEBUG fetch unlocked:", window.location.href, "->", '/api/dex/unlocked');
+            console.log("DEBUG token:", token);
+            console.log("DEBUG fetch URL:", window.location.origin + '/api/dex/unlocked');
+
             const response = await fetch('/api/dex/unlocked', {
                 headers: {
                     'Authorization': `Bearer ${token}`
