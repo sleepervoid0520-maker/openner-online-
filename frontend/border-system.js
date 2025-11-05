@@ -1,4 +1,4 @@
-// ===== SISTEMA DE BORDES DE PERFIL =====
+﻿/// ===== SISTEMA DE BORDES DE PERFIL =====
 
 class PlayerBorderSystem {
     constructor() {
