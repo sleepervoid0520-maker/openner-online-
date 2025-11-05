@@ -44,8 +44,8 @@ class ChatSystem {
     initialize() {
         // Conectar con Socket.IO
         // Detectar entorno y usar la URL correcta
-        const backendUrl = window.location.hostname.includes('onrender.com')
-            ? 'http://104.248.214.10:3000'
+        const backendUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000'
             : 'http://104.248.214.10:3000';
         this.socket = io(backendUrl);
         

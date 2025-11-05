@@ -116,6 +116,11 @@ class AuthSystem {
                     await window.playerIconSystem.loadUnlockedIconsFromBackend();
                     window.playerIconSystem.updatePlayerIcon();
                 }
+                
+                // Inicializar sistema de inventario inmediatamente después del login
+                inventorySystem = new InventorySystem(this);
+                window.inventorySystem = inventorySystem;
+                
                 this.showDashboard();
             } else {
                 this.showNotification(data.error || 'Error en el login', 'error');
@@ -2606,11 +2611,12 @@ RouletteSystem.prototype.collectWeapon = function() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🔧 Configurando event listeners de botones TOMAR/VENDER...');
     
-    // Inicializar sistema de inventario solo si hay token (usuario logueado)
+    // Inicializar sistema de inventario solo si hay token (usuario logueado) y no está ya inicializado
     setTimeout(() => {
-        if (authSystem && authSystem.token) {
+        if (authSystem && authSystem.token && !inventorySystem) {
             inventorySystem = new InventorySystem(authSystem);
-        } else {
+            window.inventorySystem = inventorySystem;
+        } else if (!inventorySystem) {
             console.log('⏳ Esperando login para inicializar inventario');
         }
     }, 1000);
