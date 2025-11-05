@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 const io = socketIO(server, {
   cors: {
-    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
+    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000', 'http://opennergame.duckdns.org:3000'],
     credentials: true
   }
 });
@@ -56,7 +56,7 @@ app.use(helmet({
       scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:", "blob:"],
-  connectSrc: ["'self'", 'http://104.248.214.10:3000']
+  connectSrc: ["'self'", 'http://104.248.214.10:3000', 'http://opennergame.duckdns.org:3000']
     }
   }
 }));
@@ -73,7 +73,7 @@ app.use(limiter);
 
 // CORS para desarrollo y producción
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
+  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000', 'http://opennergame.duckdns.org:3000'],
   credentials: true
 }));
 
@@ -103,6 +103,10 @@ app.use('/api/iconos', iconosRoutes);
 app.use('/api/borders', bordersRoutes);
 app.use('/api/market', marketRoutes);
 app.use('/api/ranking', rankingRoutes);
+
+// Agregar rutas del juego (Box Opening Game)
+const gameRoutes = require('./routes/game');
+app.use('/api/game', gameRoutes);
 
 // Ruta principal
 app.get('/', (req, res) => {

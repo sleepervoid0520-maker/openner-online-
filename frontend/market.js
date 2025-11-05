@@ -1,6 +1,6 @@
 // Sistema de Mercado - Market.js
 
-const API_BASE_URL = 'http://104.248.214.10:3000/api';
+const API_BASE_URL = '/api';
 
 // Variables globales
 let currentFilters = {
@@ -187,13 +187,17 @@ async function loadMarketListings() {
     if (!token) return;
 
     try {
+        // DEBUG: Mostrar el origen, API_BASE_URL y URLs de los fetch
+        console.log('[DEBUG market.js] window.location.origin:', window.location.origin);
+        console.log('[DEBUG market.js] API_BASE_URL:', typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : '(no definido)');
+
         // Obtener perfil del usuario para saber su ID
-        const profileResponse = await fetch(`${API_BASE_URL}/auth/verify`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        const verifyUrl = '/api/auth/verify';
+        console.log('[DEBUG market.js] Intentando fetch a:', verifyUrl, 'Token:', token);
+        const verifyRes = await fetch(verifyUrl, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
-        const profileData = await profileResponse.json();
+        const profileData = await verifyRes.json();
         const currentUserId = profileData.success ? profileData.user.id : null;
 
         // Construir query params
@@ -202,7 +206,9 @@ async function loadMarketListings() {
             if (value) params.append(key, value);
         });
 
-        const response = await fetch(`${API_BASE_URL}/market/listings?${params}`, {
+        const listingsUrl = (typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : '') + '/market/listings?' + params;
+        console.log('[DEBUG market.js] Intentando fetch a:', listingsUrl);
+        const response = await fetch(listingsUrl, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
