@@ -10,6 +10,9 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 
+// Configuración de confianza para proxies (necesario para rate limiting detrás de proxy)
+app.set('trust proxy', true);
+
 // Configuración dinámica para desarrollo y producción
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 const PORT = process.env.PORT || 3000;
