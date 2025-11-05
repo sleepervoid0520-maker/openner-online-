@@ -42,19 +42,12 @@ class ChatSystem {
     }
     
     initialize() {
-<<<<<<< HEAD
-        // Conectar con Socket.IO
-        // Intentar conectar primero a localhost, luego al servidor remoto si falla
-        this.tryConnect();
-=======
-        // Conectar con Socket.IO usando el mismo dominio y protocolo que el frontend
-        const backendUrl = window.location.origin;
-        this.socket = io(backendUrl);
-        
-       /// Event listeners
-        this.setupSocketListeners();
->>>>>>> 682a449125aa888393a45765c1b7ff66b26ccddb
-        this.setupUIListeners();
+    // Conectar con Socket.IO usando el mismo dominio y protocolo que el frontend
+    const backendUrl = window.location.origin;
+    this.socket = io(backendUrl);
+    // Event listeners
+    this.setupSocketListeners();
+    this.setupUIListeners();
     }
 
     async tryConnect() {
