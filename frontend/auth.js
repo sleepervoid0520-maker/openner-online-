@@ -2749,3 +2749,78 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ===== Sistema de Opciones de Login =====
+document.addEventListener('DOMContentLoaded', () => {
+    const authOptionsBtn = document.getElementById('auth-options-btn');
+    const authOptionsModal = document.getElementById('auth-options-modal');
+    const closeAuthOptionsModal = document.getElementById('close-auth-options-modal');
+    
+    const authMusicVolumeSlider = document.getElementById('auth-music-volume');
+    const authMusicVolumeValue = document.getElementById('auth-music-volume-value');
+    const authSfxVolumeSlider = document.getElementById('auth-sfx-volume');
+    const authSfxVolumeValue = document.getElementById('auth-sfx-volume-value');
+    
+    const bgMusic = document.getElementById('background-music');
+    
+    // Abrir modal de opciones de login
+    if (authOptionsBtn) {
+        authOptionsBtn.addEventListener('click', () => {
+            authOptionsModal.classList.add('active');
+        });
+    }
+    
+    // Cerrar modal de opciones de login
+    if (closeAuthOptionsModal) {
+        closeAuthOptionsModal.addEventListener('click', () => {
+            authOptionsModal.classList.remove('active');
+        });
+    }
+    
+    // Cerrar al hacer click fuera del modal
+    authOptionsModal.addEventListener('click', (e) => {
+        if (e.target === authOptionsModal) {
+            authOptionsModal.classList.remove('active');
+        }
+    });
+    
+    // Control de volumen de música en login
+    if (authMusicVolumeSlider && bgMusic) {
+        authMusicVolumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value;
+            authMusicVolumeValue.textContent = `${volume}%`;
+            bgMusic.volume = volume / 100;
+            
+            // Guardar en localStorage
+            localStorage.setItem('musicVolume', volume);
+        });
+        
+        // Cargar volumen guardado
+        const savedMusicVolume = localStorage.getItem('musicVolume');
+        if (savedMusicVolume) {
+            authMusicVolumeSlider.value = savedMusicVolume;
+            authMusicVolumeValue.textContent = `${savedMusicVolume}%`;
+            bgMusic.volume = savedMusicVolume / 100;
+        }
+    }
+    
+    // Control de volumen de efectos en login
+    if (authSfxVolumeSlider && window.soundSystem) {
+        authSfxVolumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value;
+            authSfxVolumeValue.textContent = `${volume}%`;
+            window.soundSystem.volume = volume / 100;
+            
+            // Guardar en localStorage
+            localStorage.setItem('sfxVolume', volume);
+        });
+        
+        // Cargar volumen guardado
+        const savedSfxVolume = localStorage.getItem('sfxVolume');
+        if (savedSfxVolume) {
+            authSfxVolumeSlider.value = savedSfxVolume;
+            authSfxVolumeValue.textContent = `${savedSfxVolume}%`;
+            window.soundSystem.volume = savedSfxVolume / 100;
+        }
+    }
+});

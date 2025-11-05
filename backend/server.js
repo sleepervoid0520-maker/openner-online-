@@ -1,10 +1,4 @@
 // Debug: log all static file requests
-app.use((req, res, next) => {
-  if (req.url.endsWith('.css') || req.url.endsWith('.js') || req.url.endsWith('.png') || req.url.endsWith('.jpg')) {
-    console.log(`[STATIC DEBUG] ${req.method} ${req.url}`);
-  }
-  next();
-});
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -20,9 +14,16 @@ const server = http.createServer(app);
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  if (req.url.endsWith('.css') || req.url.endsWith('.js') || req.url.endsWith('.png') || req.url.endsWith('.jpg')) {
+    console.log(`[STATIC DEBUG] ${req.method} ${req.url}`);
+  }
+  next();
+});
+
 const io = socketIO(server, {
   cors: {
-    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
     credentials: true
   }
 });
@@ -52,7 +53,7 @@ app.use(helmet({
       scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'"]
+  connectSrc: ["'self'", 'http://104.248.214.10:3000']
     }
   }
 }));
@@ -69,7 +70,7 @@ app.use(limiter);
 
 // CORS para desarrollo y producción
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://104.248.214.10:3000'],
   credentials: true
 }));
 

@@ -23,6 +23,13 @@
                     <h1>Openner Online</h1>
                 </div>
                 
+                <!-- Botón de Opciones -->
+                <div class="auth-options">
+                    <button id="auth-options-btn" class="auth-options-btn" title="Opciones de sonido y música">
+                        <span>🔧</span>
+                    </button>
+                </div>
+                
                 <!-- Formulario de Login -->
                 <div id="login-form" class="auth-form active">
                     <h2 data-translate="auth_login">Iniciar Sesión</h2>
@@ -48,6 +55,34 @@
                     <p class="switch-form">
                         <span data-translate="auth_switch_login">¿Ya tienes cuenta?</span> <a href="#" id="show-login" data-translate="auth_login">Inicia Sesión</a>
                     </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Opciones de Login -->
+        <div id="auth-options-modal" class="modal auth-options-modal">
+            <div class="modal-content auth-options-content">
+                <button class="close-modal" id="close-auth-options-modal">&times;</button>
+                <h2><span>🔧</span> <span data-translate="auth_options_title">Opciones</span></h2>
+
+                <div class="options-container">
+                    <!-- Control de volumen de música -->
+                    <div class="option-group">
+                        <label for="auth-music-volume"><span>🎵</span> <span data-translate="options_music_volume">Volumen de Música</span></label>
+                        <div class="volume-control">
+                            <input type="range" id="auth-music-volume" min="0" max="100" value="15" class="volume-slider">
+                            <span id="auth-music-volume-value" class="volume-value">15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Control de volumen de efectos -->
+                    <div class="option-group">
+                        <label for="auth-sfx-volume"><span>🔊</span> <span data-translate="options_sfx_volume">Volumen de Efectos</span></label>
+                        <div class="volume-control">
+                            <input type="range" id="auth-sfx-volume" min="0" max="100" value="30" class="volume-slider">
+                            <span id="auth-sfx-volume-value" class="volume-value">30%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
