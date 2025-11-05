@@ -43,16 +43,62 @@ class ChatSystem {
     
     initialize() {
         // Conectar con Socket.IO
-        // Detectar entorno y usar la URL correcta
-        const backendUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3000'
-            : 'http://104.248.214.10:3000';
-        this.socket = io(backendUrl);
-        
-        // Event listeners
-        this.setupSocketListeners();
+        // Intentar conectar primero a localhost, luego al servidor remoto si falla
+        this.tryConnect();
         this.setupUIListeners();
-        
+    }
+
+    async tryConnect() {
+        const localUrl = 'http://localhost:3000';
+        const remoteUrl = 'http://104.248.214.10:3000';
+
+        // Primero intentar conectar a localhost
+        try {
+            console.log('🔌 Intentando conectar al servidor local...');
+            this.socket = io(localUrl, {
+                timeout: 5000, // 5 segundos timeout
+                reconnection: true,
+                reconnectionAttempts: 3
+            });
+
+            // Esperar a que se conecte o falle
+            await new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => {
+                    this.socket.disconnect();
+                    reject(new Error('Timeout'));
+                }, 5000);
+
+                this.socket.on('connect', () => {
+                    clearTimeout(timeout);
+                    console.log('✅ Conectado al servidor local');
+                    resolve();
+                });
+
+                this.socket.on('connect_error', () => {
+                    clearTimeout(timeout);
+                    this.socket.disconnect();
+                    reject(new Error('Connection failed'));
+                });
+            });
+
+        } catch (error) {
+            console.log('❌ No se pudo conectar al servidor local, intentando servidor remoto...');
+
+            // Si falla localhost, intentar servidor remoto
+            this.socket = io(remoteUrl, {
+                reconnection: true,
+                reconnectionAttempts: 5
+            });
+
+            this.socket.on('connect', () => {
+                console.log('✅ Conectado al servidor remoto');
+            });
+        }
+
+        this.setupSocketListeners();
+    }
+    
+    setupSocketListeners() {
         // Conectar al chat
         this.socket.on('connect', () => {
             console.log('🔌 Conectado al chat');
@@ -70,9 +116,7 @@ class ChatSystem {
             console.error('Error de conexión:', error);
             this.addSystemMessage('Error de conexión al chat');
         });
-    }
-    
-    setupSocketListeners() {
+
         // Nuevo mensaje recibido
         this.socket.on('new-message', (message) => {
             this.addMessage(message);
