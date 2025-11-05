@@ -217,6 +217,22 @@ async function startServer() {
       console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
       console.log('🔐 ¡Sistema de Autenticación listo!');
       console.log('💬 Sistema de chat en tiempo real activo');
+
+      // Mostrar link de acceso web
+      const os = require('os');
+      let publicIp = null;
+      const interfaces = os.networkInterfaces();
+      for (const name of Object.keys(interfaces)) {
+        for (const iface of interfaces[name]) {
+          if (iface.family === 'IPv4' && !iface.internal) {
+            publicIp = iface.address;
+            break;
+          }
+        }
+        if (publicIp) break;
+      }
+      const url = publicIp ? `http://${publicIp}:${PORT}` : `http://${host}:${PORT}`;
+      console.log(`\uD83D\uDD17 Abre en tu navegador: ${url}`);
     });
   } catch (error) {
     console.error('❌ Error al iniciar servidor:', error);
