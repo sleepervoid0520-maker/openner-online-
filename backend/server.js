@@ -104,6 +104,10 @@ app.use('/api/borders', bordersRoutes);
 app.use('/api/market', marketRoutes);
 app.use('/api/ranking', rankingRoutes);
 
+// Agregar rutas del juego (Box Opening Game)
+const gameRoutes = require('./routes/game');
+app.use('/api/game', gameRoutes);
+
 // Ruta principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
