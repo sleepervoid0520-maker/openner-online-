@@ -1,7 +1,5 @@
 // Sistema de Ranking
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api'
-    : 'http://104.248.214.10:3000/api';
+const API_URL = 'http://104.248.214.10:3000/api';
 let currentTab = 'money';
 let rankingData = {
     money: null,
