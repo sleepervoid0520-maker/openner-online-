@@ -218,8 +218,8 @@ async function startServer() {
     });
     
     // En producción, escuchar en 0.0.0.0 (todas las interfaces)
-    const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1';
-    server.listen(PORT, host, () => {
+  const host = '0.0.0.0';
+  server.listen(PORT, host, () => {
       console.log(`🚀 Servidor corriendo en http://${host}:${PORT}`);
       console.log(`🌍 Entorno: ${process.env.NODE_ENV || 'development'}`);
       console.log('🔐 ¡Sistema de Autenticación listo!');
